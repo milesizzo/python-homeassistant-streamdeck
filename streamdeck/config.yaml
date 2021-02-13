@@ -1,0 +1,269 @@
+# vim: set expandtab:
+debug: False # If True, enables debug output messages
+
+#################################################
+### Home Assistant Server Connection Settings ###
+#################################################
+home_assistant:
+  # Hostname or IP address of the HomeAssistant server.
+  host: hass.internal
+
+  # True if a SSL connection to the HomeAssistant server should be used,
+  # False for regular HTTP.
+  ssl: False
+
+  # Custom port to use to connect to use when connecting to the server,
+  # Set to ~ if default port should be used instead.
+  port: 8123
+
+  # Legacy password to use to connect to the HomeAssistant server. Newer
+  # versions of HomeAssistant have deprecated this in favour of long-lived
+  # access tokens.
+  api_password: ~
+
+  # Long lived access token to use to connect to the HomeAssistant server. See
+  # the Authentication section of the HomeAssistant documentation on how to
+  # create of these for your server.
+  api_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIwZWUyYjhiMWQyMmM0ZjE3OGUxYjNkN2M3YmRlYmY4MCIsImlhdCI6MTYxMzAxMzM4OCwiZXhwIjoxOTI4MzczMzg4fQ.O6zNwtspS0n_rzYMsnNfkd-VFLFqkmT63hKk4Sz_nCc
+
+#################################################
+###     StreamDeck Configuration Settings     ###
+#################################################
+streamdeck:
+  # Brightness percentage of the backlight when in use. Should range from 0 to 100.
+  brightness: 100
+
+  # Timeout in seconds before the screen backlight is turned off automatically.
+  # Set to ~ or 0 to keep backlight on indefinitely.
+  screensaver: ~
+
+#################################################
+###        Tile Configuration Settings        ###
+#################################################
+tiles:
+  # Each tile should define how that tile should be rendered when the associated
+  # HomeAssistant entity is in a given state. This allows screens to be defined
+  # as a collection of tiles bound to different entities so that all entities of
+  # the same type (e.g. all lights) are drawn in the same way.
+
+  - type: "light"
+    class: 'HassTile'
+    states:
+      - state: 'on'
+        label: '{name}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        overlay: 'Assets/Images/icons8-light-on-72.png'
+        action: 'turn_off'
+      - state: ~
+        label: '{name}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        overlay: 'Assets/Images/icons8-light-off-72.png'
+        action: 'turn_on'
+
+  - type: "switch"
+    class: 'HassTile'
+    states:
+      - state: 'on'
+        label: '{name}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        overlay: 'Assets/Images/icons8-switch-on-72.png'
+        action: 'turn_off'
+      - state: ~
+        label: '{name}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        overlay: 'Assets/Images/icons8-switch-off-72.png'
+        action: 'turn_on'
+
+  - type: "media_power"
+    class: 'HassTile'
+    states:
+      - state: ~
+        label: '{name}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        overlay: 'Assets/Images/icons8-switch-on-72.png'
+        action: 'turn_off'
+      - state: 'off'
+        label: '{name}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        overlay: 'Assets/Images/icons8-switch-off-72.png'
+        action: 'turn_on'
+
+  - type: "media_play_pause"
+    class: 'HassTile'
+    states:
+      - state: 'playing'
+        label: '{media_title}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        overlay: 'Assets/Images/icons8-pause-squared-72.png'
+        action: 'media_player/media_pause'
+      - state: 'paused'
+        label: '{media_title}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        overlay: 'Assets/Images/icons8-start-72.png'
+        action: 'media_player/media_play'
+      - state: ~
+        label: '{name}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        overlay: 'Assets/Images/icons8-start-72.png'
+        overlay_mode: 'L'
+
+  - type: "media_next"
+    class: 'HassTile'
+    states:
+      - state: 'playing'
+        label: '{name}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        overlay: 'Assets/Images/icons8-last-72.png'
+        action: 'media_player/media_next_track'
+      - state: ~
+        label: '{name}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        overlay: 'Assets/Images/icons8-last-72.png'
+        overlay_mode: 'L'
+
+  - type: "media_previous"
+    class: 'HassTile'
+    states:
+      - state: 'playing'
+        label: '{name}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        overlay: 'Assets/Images/icons8-first-72.png'
+        action: 'media_player/media_previous_track'
+      - state: ~
+        label: '{name}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        overlay: 'Assets/Images/icons8-first-72.png'
+        overlay_mode: 'L'
+
+  - type: "temperature"
+    class: 'HassTile'
+    states:
+      - state: ~
+        label: '{name}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        value: '{state} ┬░C'
+        value_font: Assets/Fonts/Roboto-Light.ttf
+        value_size: 18
+        overlay: 'Assets/Images/sensor.png'
+        action: ~
+
+  - type: "page"
+    class: 'PageTile'
+    states:
+      - state: ~
+        label: '{name}'
+        label_font: Assets/Fonts/Roboto-Bold.ttf
+        label_size: 12
+        overlay: 'Assets/Images/page.png'
+
+#################################################
+###    Screen Layout Configuration Settings   ###
+#################################################
+screens:
+  # Each screen consists of one or more tiles of various types, bound to an
+  # entity or page. The "home" page is mandatory, and is the one shown when the
+  # script starts.
+
+  - name: "home"
+    tiles:
+      - position: [1, 0]
+        type: "page"
+        name: "Downstairs"
+        page: "downstairs"
+      - position: [2, 0]
+        type: "page"
+        name: "Study"
+        page: "study"
+      - position: [3, 0]
+        type: "page"
+        name: "Bedroom"
+        page: "bedroom"
+  - name: "study"
+    tiles:
+      - position: [0, 0]
+        type: "page"
+        name: "Home"
+        page: ~
+      - position: [1, 0]
+        type: "light"
+        name: "Computer"
+        entity_id: "light.computer"
+      - position: [2, 0]
+        type: "light"
+        name: "Workbench"
+        entity_id: "light.workbench"
+      - position: [3, 0]
+        type: "light"
+        name: "Lamp"
+        entity_id: "light.lamp"
+      - position: [4, 0]
+        type: "light"
+        name: "Stairs"
+        entity_id: "light.nanoleaf"
+      - position: [5, 0]
+        type: "light"
+        name: "Room"
+        entity_id: "switch.study_lights"
+      - position: [0, 2]
+        type: "temperature"
+        name: "3D nozzle"
+        entity_id: "sensor.octoprint_tool_0_temperature"
+      - position: [1, 2]
+        type: "temperature"
+        name: "3D bed"
+        entity_id: "sensor.octoprint_bed_temperature"
+  - name: "downstairs"
+    tiles:
+      - position: [0, 0]
+        type: "page"
+        name: "Home"
+        page: ~
+      - position: [1, 1]
+        type: "media_power"
+        name: "Downstairs TV"
+        entity_id: "media_player.downstairs_av"
+      - position: [2, 1]
+        type: "media_power"
+        name: "Projector"
+        entity_id: "media_player.projector_av"
+  - name: "bedroom"
+    tiles:
+      - position: [0, 0]
+        type: "page"
+        name: "Home"
+        page: ~
+      - position: [1, 0]
+        type: "media_power"
+        name: "Bedroom TV"
+        entity_id: "media_player.bedroom_av"
+      - position: [0, 1]
+        type: "media_previous"
+        name: "Bedroom TV"
+        entity_id: "media_player.bedroom_av"
+      - position: [1, 1]
+        type: "media_play_pause"
+        name: "Bedroom TV"
+        entity_id: "media_player.bedroom_av"
+      - position: [2, 1]
+        type: "media_next"
+        name: "Bedroom TV"
+        entity_id: "media_player.bedroom_av"
+      - position: [3, 0]
+        type: "temperature"
+        name: "Server"
+        entity_id: "sensor.motion_sensor_2_temperature"
+
