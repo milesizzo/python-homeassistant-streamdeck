@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+# vim: set expandtab:
 #   Python StreamDeck HomeAssistant Client
 #      Released under the MIT license
 #
@@ -14,6 +15,7 @@ import StreamDeck.DeviceManager as StreamDeck
 import logging
 import asyncio
 import yaml
+import os
 
 
 class Config(object):
@@ -95,7 +97,7 @@ async def main(loop, config):
     conf_hass_ssl = config.get('home_assistant/ssl', False)
     conf_hass_port = config.get('home_assistant/port', 8123)
     conf_hass_pw = config.get('home_assistant/api_password')
-    conf_hass_token = config.get('home_assistant/api_token')
+    conf_hass_token = config.get('home_assistant/api_token', os.environ['HASS_API_TOKEN'])
 
     decks = StreamDeck.DeviceManager().enumerate()
     if not decks:

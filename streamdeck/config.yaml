@@ -24,7 +24,7 @@ home_assistant:
   # Long lived access token to use to connect to the HomeAssistant server. See
   # the Authentication section of the HomeAssistant documentation on how to
   # create of these for your server.
-  api_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIwZWUyYjhiMWQyMmM0ZjE3OGUxYjNkN2M3YmRlYmY4MCIsImlhdCI6MTYxMzAxMzM4OCwiZXhwIjoxOTI4MzczMzg4fQ.O6zNwtspS0n_rzYMsnNfkd-VFLFqkmT63hKk4Sz_nCc
+  api_token: ~
 
 #################################################
 ###     StreamDeck Configuration Settings     ###
