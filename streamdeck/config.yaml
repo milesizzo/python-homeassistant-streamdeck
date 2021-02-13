@@ -37,6 +37,13 @@ streamdeck:
   # Set to ~ or 0 to keep backlight on indefinitely.
   screensaver: ~
 
+defaults:
+  label: '{name}'
+  label_font: Assets/Fonts/Dosis-Bold.ttf
+  label_size: 12
+  value_font: Assets/Fonts/Dosis-Light.ttf
+  value_size: 18
+
 #################################################
 ###        Tile Configuration Settings        ###
 #################################################
@@ -50,15 +57,9 @@ tiles:
     class: 'HassTile'
     states:
       - state: 'on'
-        label: '{name}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
         overlay: 'Assets/Images/icons8-light-on-72.png'
         action: 'turn_off'
       - state: ~
-        label: '{name}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
         overlay: 'Assets/Images/icons8-light-off-72.png'
         action: 'turn_on'
 
@@ -66,15 +67,9 @@ tiles:
     class: 'HassTile'
     states:
       - state: 'on'
-        label: '{name}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
         overlay: 'Assets/Images/icons8-switch-on-72.png'
         action: 'turn_off'
       - state: ~
-        label: '{name}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
         overlay: 'Assets/Images/icons8-switch-off-72.png'
         action: 'turn_on'
 
@@ -82,15 +77,9 @@ tiles:
     class: 'HassTile'
     states:
       - state: ~
-        label: '{name}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
         overlay: 'Assets/Images/icons8-switch-on-72.png'
         action: 'turn_off'
       - state: 'off'
-        label: '{name}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
         overlay: 'Assets/Images/icons8-switch-off-72.png'
         action: 'turn_on'
 
@@ -99,20 +88,13 @@ tiles:
     states:
       - state: 'playing'
         label: '{media_title}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
         overlay: 'Assets/Images/icons8-pause-squared-72.png'
         action: 'media_player/media_pause'
       - state: 'paused'
         label: '{media_title}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
         overlay: 'Assets/Images/icons8-start-72.png'
         action: 'media_player/media_play'
       - state: ~
-        label: '{name}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
         overlay: 'Assets/Images/icons8-start-72.png'
         overlay_mode: 'L'
 
@@ -120,15 +102,9 @@ tiles:
     class: 'HassTile'
     states:
       - state: 'playing'
-        label: '{name}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
         overlay: 'Assets/Images/icons8-last-72.png'
         action: 'media_player/media_next_track'
       - state: ~
-        label: '{name}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
         overlay: 'Assets/Images/icons8-last-72.png'
         overlay_mode: 'L'
 
@@ -136,15 +112,9 @@ tiles:
     class: 'HassTile'
     states:
       - state: 'playing'
-        label: '{name}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
         overlay: 'Assets/Images/icons8-first-72.png'
         action: 'media_player/media_previous_track'
       - state: ~
-        label: '{name}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
         overlay: 'Assets/Images/icons8-first-72.png'
         overlay_mode: 'L'
 
@@ -152,12 +122,7 @@ tiles:
     class: 'HassTile'
     states:
       - state: ~
-        label: '{name}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
-        value: '{state} ┬░C'
-        value_font: Assets/Fonts/Roboto-Light.ttf
-        value_size: 18
+        value: '{state}°C'
         overlay: 'Assets/Images/sensor.png'
         action: ~
 
@@ -165,9 +130,6 @@ tiles:
     class: 'PageTile'
     states:
       - state: ~
-        label: '{name}'
-        label_font: Assets/Fonts/Roboto-Bold.ttf
-        label_size: 12
         overlay: 'Assets/Images/page.png'
 
 #################################################

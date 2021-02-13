@@ -131,6 +131,7 @@ async def main(loop, config):
 
     # Build dictionary of tile pages
     conf_screens = config.get('screens', [])
+    conf_defaults = config.get('defaults', {})
     for conf_screen in conf_screens:
         conf_screen_name = conf_screen.get('name')
         conf_screen_tiles = conf_screen.get('tiles')
@@ -142,7 +143,7 @@ async def main(loop, config):
 
             conf_tile_class_info = tiles.get(conf_screen_tile_type)
 
-            page_tiles[tuple(conf_screen_tile_pos)] = conf_tile_class_info['class'](deck=deck, hass=hass, tile_class=conf_tile_class_info, tile_info=conf_screen_tile)
+            page_tiles[tuple(conf_screen_tile_pos)] = conf_tile_class_info['class'](deck=deck, hass=hass, tile_class=conf_tile_class_info, tile_info=conf_screen_tile, defaults=conf_defaults)
 
         pages[conf_screen_name] = page_tiles
 
