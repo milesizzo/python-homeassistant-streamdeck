@@ -115,7 +115,6 @@ async def main(loop, config):
     for conf_tile in conf_tiles:
         conf_tile_type = conf_tile.get('type')
         conf_tile_class = conf_tile.get('class')
-        conf_tile_action = conf_tile.get('action')
         conf_tile_states = conf_tile.get('states')
 
         tile_states = dict()
@@ -126,7 +125,6 @@ async def main(loop, config):
         tiles[conf_tile_type] = {
             'class': getattr(tile_classes, conf_tile_class),
             'states': tile_states,
-            'action': conf_tile_action,
         }
 
     # Build dictionary of tile pages

@@ -1,3 +1,4 @@
+# vim: set expandtab:
 #   Python StreamDeck HomeAssistant Client
 #      Released under the MIT license
 #
@@ -22,6 +23,10 @@ class BaseTile(object):
     async def state(self):
         return None
 
+    @property
+    async def attributes(self):
+        return {}
+
     async def get_image(self, force=True):
         state = await self.state
 
@@ -35,11 +40,13 @@ class BaseTile(object):
 
         state_tile = self.tile_class['states'].get(state) or self.tile_class['states'].get(None) or {}
 
-        format_dict = {'state': state, **self.tile_info}
+        attributes = await self.attributes
+        format_dict = {'state': state, **self.tile_info, **attributes}
 
         image_tile = self.image_tile
         image_tile.color = state_tile.get('color')
         image_tile.overlay = state_tile.get('overlay')
+        image_tile.overlay_mode = state_tile.get('overlay_mode')
         image_tile.label = state_tile.get('label', '').format_map(format_dict)
         image_tile.label_font = state_tile.get('label_font')
         image_tile.label_size = state_tile.get('label_size')
@@ -57,25 +64,40 @@ class HassTile(BaseTile):
     def __init__(self, deck, hass, tile_class, tile_info):
         super().__init__(deck, hass, tile_class, tile_info)
 
+    async def get_hass_state(self):
+        return await self.hass.get_state(self.tile_info['entity_id'])
+
     @property
     async def state(self):
-        hass_state = await self.hass.get_state(self.tile_info['entity_id'])
+        hass_state = await self.get_hass_state()
         return hass_state.get('state')
+
+    @property
+    async def attributes(self):
+        hass_state = await self.get_hass_state()
+        return hass_state.get('attributes')
 
     async def button_state_changed(self, tile_manager, state):
         if not state:
             return
 
-        if self.tile_class.get('action') is not None:
-            action = self.tile_class.get('action').split('/')
-            if len(action) == 1:
-                domain = 'homeassistant'
-                service = action[0]
-            else:
-                domain = action[0]
-                service = action[1]
+        curr_state = await self.state
+        state_info = self.tile_class['states'].get(curr_state) or self.tile_class['states'].get(None) or None
+        if state_info is None:
+            return
+        action = state_info.get('action')
+        if action is None:
+            return
+        action = action.split('/')
 
-            await self.hass.set_state(domain=domain, service=service, entity_id=self.tile_info['entity_id'])
+        if len(action) == 1:
+            domain = 'homeassistant'
+            service = action[0]
+        else:
+            domain = action[0]
+            service = action[1]
+
+        await self.hass.set_state(domain=domain, service=service, entity_id=self.tile_info['entity_id'])
 
 
 class PageTile(BaseTile):

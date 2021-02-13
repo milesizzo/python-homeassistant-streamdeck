@@ -1,3 +1,4 @@
+# vim: set expandtab:
 #   Python StreamDeck HomeAssistant Client
 #      Released under the MIT license
 #
@@ -17,6 +18,7 @@ class TileImage(object):
 
         self.color = (0, 0, 0)
         self.overlay = None
+        self.overlay_mode = None
         self.label = None
         self.label_font = None
         self.label_size = None
@@ -31,6 +33,10 @@ class TileImage(object):
     @property
     def overlay(self):
         return self._overlay
+
+    @property
+    def overlay_mode(self):
+        return self._overlay_mode
 
     @property
     def label(self):
@@ -64,6 +70,12 @@ class TileImage(object):
     @overlay.setter
     def overlay(self, overlay):
         self._overlay = overlay
+        self._overlay_image = None
+        self._pixels = None
+
+    @overlay_mode.setter
+    def overlay_mode(self, overlay_mode):
+        self._overlay_mode = overlay_mode
         self._overlay_image = None
         self._pixels = None
 
@@ -106,7 +118,7 @@ class TileImage(object):
             return
 
         if self._overlay_image is None:
-            self._overlay_image = Image.open(self._overlay).convert("RGBA")
+            self._overlay_image = Image.open(self._overlay).convert(self._overlay_mode or "RGBA")
 
         overlay_image = self._overlay_image.copy()
         overlay_image.thumbnail(max_size, Image.LANCZOS)
