@@ -16,6 +16,7 @@ import logging
 import asyncio
 import yaml
 import os
+import operator
 
 
 class Config(object):
@@ -129,6 +130,14 @@ async def main(loop, config):
             'states': tile_states,
         }
 
+    # Load templates
+    conf_templates = config.get('templates', [])
+    templates = {}
+    for conf_template in conf_templates:
+        conf_template_name = conf_template.get('name')
+        conf_template_tiles = conf_template.get('tiles', [])
+        templates[conf_template_name] = conf_template_tiles
+
     # Build dictionary of tile pages
     conf_screens = config.get('screens', [])
     conf_defaults = config.get('defaults', {})
@@ -138,12 +147,22 @@ async def main(loop, config):
 
         page_tiles = dict()
         for conf_screen_tile in conf_screen_tiles:
+            conf_screen_tile_template = conf_screen_tile.get('template')
             conf_screen_tile_pos = conf_screen_tile.get('position')
-            conf_screen_tile_type = conf_screen_tile.get('type')
+            if conf_screen_tile_template is None:
+                template_tiles = [{}]
+            else:
+                template_tiles = templates.get(conf_screen_tile_template)
 
-            conf_tile_class_info = tiles.get(conf_screen_tile_type)
+            for template_tile in template_tiles:
+                template_tile_pos = template_tile.get('position', [0, 0])
+                tile = {**template_tile, **conf_screen_tile}
+                tile['position'] = tile_pos = list(map(operator.add, conf_screen_tile_pos, template_tile_pos))
+                print(tile)
 
-            page_tiles[tuple(conf_screen_tile_pos)] = conf_tile_class_info['class'](deck=deck, hass=hass, tile_class=conf_tile_class_info, tile_info=conf_screen_tile, defaults=conf_defaults)
+                tile_type = tile.get('type')
+                tile_class_info = tiles.get(tile_type)
+                page_tiles[tuple(tile_pos)] = tile_class_info['class'](deck=deck, hass=hass, tile_class=tile_class_info, tile_info=tile, defaults=conf_defaults)
 
         pages[conf_screen_name] = page_tiles
 

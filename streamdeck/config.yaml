@@ -39,8 +39,8 @@ streamdeck:
 
 defaults:
   label: '{name}'
-  label_font: Assets/Fonts/Dosis-Bold.ttf
-  label_size: 12
+  label_font: Assets/Fonts/Dosis-SemiBold.ttf
+  label_size: 16
   value_font: Assets/Fonts/Dosis-Light.ttf
   value_size: 18
 
@@ -87,11 +87,9 @@ tiles:
     class: 'HassTile'
     states:
       - state: 'playing'
-        label: '{media_title}'
         overlay: 'Assets/Images/icons8-pause-squared-72.png'
         action: 'media_player/media_pause'
       - state: 'paused'
-        label: '{media_title}'
         overlay: 'Assets/Images/icons8-start-72.png'
         action: 'media_player/media_play'
       - state: ~
@@ -118,19 +116,119 @@ tiles:
         overlay: 'Assets/Images/icons8-first-72.png'
         overlay_mode: 'L'
 
+  - type: "media_stop"
+    class: 'HassTile'
+    states:
+      - state: 'playing'
+        overlay: 'Assets/Images/icons8-stop-squared-72.png'
+        action: 'media_player/media_stop'
+      - state: ~
+        overlay: 'Assets/Images/icons8-stop-squared-72.png'
+        overlay_mode: 'L'
+
+  - type: "media_mute"
+    class: 'HassTile'
+    states:
+      - state: 'playing'
+        overlay: 'Assets/Images/icons8-mute-72.png'
+        action: 'media_player/volume_mute'
+      - state: ~
+        overlay: 'Assets/Images/icons8-mute-72.png'
+        overlay_mode: 'L'
+
+  - type: "media_volume_down"
+    class: 'HassTile'
+    states:
+      - state: 'playing'
+        overlay: 'Assets/Images/icons8-low-volume-72.png'
+        action: 'media_player/volume_down'
+      - state: ~
+        overlay: 'Assets/Images/icons8-low-volume-72.png'
+        overlay_mode: 'L'
+
+  - type: "media_volume_up"
+    class: 'HassTile'
+    states:
+      - state: 'playing'
+        overlay: 'Assets/Images/icons8-voice-72.png'
+        action: 'media_player/volume_up'
+      - state: ~
+        overlay: 'Assets/Images/icons8-voice-72.png'
+        overlay_mode: 'L'
+
+  - type: "climate_power"
+    class: 'HassTile'
+    states:
+      - state: 'off'
+        overlay: 'Assets/Images/icons8-air-conditioner-72.png'
+        value: '{current_temperature}°C'
+        action: 'climate/turn_on'
+        overlay_mode: 'L'
+      - state: ~
+        overlay: 'Assets/Images/icons8-air-conditioner-72.png'
+        value: '{current_temperature}°C'
+        action: 'climate/turn_off'
+
   - type: "temperature"
     class: 'HassTile'
     states:
       - state: ~
         value: '{state}°C'
-        overlay: 'Assets/Images/sensor.png'
+        overlay: 'Assets/Images/icons8-temperature-72.png'
         action: ~
 
-  - type: "page"
+  - type: "home"
     class: 'PageTile'
     states:
       - state: ~
-        overlay: 'Assets/Images/page.png'
+        overlay: 'Assets/Images/icons8-home-72.png'
+
+  - type: "bedroom"
+    class: 'PageTile'
+    states:
+      - state: ~
+        overlay: 'Assets/Images/icons8-bedroom-72.png'
+
+  - type: "kitchen"
+    class: 'PageTile'
+    states:
+      - state: ~
+        overlay: 'Assets/Images/icons8-kitchen-room-72.png'
+
+  - type: "office"
+    class: 'PageTile'
+    states:
+      - state: ~
+        overlay: 'Assets/Images/icons8-office-72.png'
+
+templates:
+  - name: "media_player"
+    tiles:
+      - position: [0, 0]
+        type: "media_power"
+        name: ""
+      - position: [1, 0]
+        type: "media_previous"
+        name: ""
+      - position: [2, 0]
+        type: "media_play_pause"
+        name: ""
+      - position: [3, 0]
+        type: "media_stop"
+        name: ""
+      - position: [4, 0]
+        type: "media_next"
+        name: ""
+      - position: [5, 0]
+        type: "media_mute"
+        name: ""
+      - position: [6, 0]
+        type: "media_volume_down"
+        name: ""
+      - position: [7, 0]
+        type: "media_volume_up"
+        name: ""
+
 
 #################################################
 ###    Screen Layout Configuration Settings   ###
@@ -143,22 +241,22 @@ screens:
   - name: "home"
     tiles:
       - position: [1, 0]
-        type: "page"
-        name: "Downstairs"
+        type: "kitchen"
+        name: ""
         page: "downstairs"
       - position: [2, 0]
-        type: "page"
-        name: "Study"
+        type: "office"
+        name: ""
         page: "study"
       - position: [3, 0]
-        type: "page"
-        name: "Bedroom"
+        type: "bedroom"
+        name: ""
         page: "bedroom"
   - name: "study"
     tiles:
       - position: [0, 0]
-        type: "page"
-        name: "Home"
+        type: "home"
+        name: ""
         page: ~
       - position: [1, 0]
         type: "light"
@@ -191,41 +289,54 @@ screens:
   - name: "downstairs"
     tiles:
       - position: [0, 0]
-        type: "page"
-        name: "Home"
+        type: "home"
+        name: ""
         page: ~
-      - position: [1, 1]
-        type: "media_power"
-        name: "Downstairs TV"
+      - position: [1, 0]
+        type: "light"
+        name: "Dining"
+        entity_id: "light.dining"
+      - position: [2, 0]
+        type: "light"
+        name: "Stove"
+        entity_id: "light.kitchen_stove"
+      - position: [3, 0]
+        type: "light"
+        name: "Sink"
+        entity_id: "light.kitchen_middle"
+      - position: [4, 0]
+        type: "light"
+        name: "Bench"
+        entity_id: "light.kitchen_window"
+      - position: [5, 0]
+        type: "light"
+        name: "TV"
+        entity_id: "light.tv"
+      - position: [6, 0]
+        type: "light"
+        name: "Couch"
+        entity_id: "light.couch"
+      - position: [7, 0]
+        type: "light"
+        name: "Party"
+        entity_id: "light.party_lights"
+      - position: [0, 2]
+        template: "media_player"
         entity_id: "media_player.downstairs_av"
-      - position: [2, 1]
-        type: "media_power"
-        name: "Projector"
+      - position: [0, 3]
+        template: "media_player"
         entity_id: "media_player.projector_av"
   - name: "bedroom"
     tiles:
       - position: [0, 0]
-        type: "page"
-        name: "Home"
+        type: "home"
+        name: ""
         page: ~
-      - position: [1, 0]
-        type: "media_power"
-        name: "Bedroom TV"
+      - position: [2, 0]
+        type: "climate_power"
+        name: ""
+        entity_id: "climate.bedroom"
+      - position: [0, 2]
+        template: "media_player"
         entity_id: "media_player.bedroom_av"
-      - position: [0, 1]
-        type: "media_previous"
-        name: "Bedroom TV"
-        entity_id: "media_player.bedroom_av"
-      - position: [1, 1]
-        type: "media_play_pause"
-        name: "Bedroom TV"
-        entity_id: "media_player.bedroom_av"
-      - position: [2, 1]
-        type: "media_next"
-        name: "Bedroom TV"
-        entity_id: "media_player.bedroom_av"
-      - position: [3, 0]
-        type: "temperature"
-        name: "Server"
-        entity_id: "sensor.motion_sensor_2_temperature"
 
