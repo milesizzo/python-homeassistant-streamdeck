@@ -63,6 +63,28 @@ tiles:
         overlay: 'Assets/Images/icons8-light-off-72.png'
         action: 'turn_on'
 
+  - type: "fan"
+    class: 'HassTile'
+    states:
+      - state: 'on'
+        overlay: 'Assets/Images/icons8-fan-speed-72.png'
+        action: 'turn_off'
+      - state: ~
+        overlay: 'Assets/Images/icons8-fan-speed-72.png'
+        action: 'turn_on'
+        overlay_mode: 'L'
+
+  - type: "heat"
+    class: 'HassTile'
+    states:
+      - state: 'on'
+        overlay: 'Assets/Images/icons8-heating-72.png'
+        action: 'turn_off'
+      - state: ~
+        overlay: 'Assets/Images/icons8-heating-72.png'
+        action: 'turn_on'
+        overlay_mode: 'L'
+
   - type: "switch"
     class: 'HassTile'
     states:
@@ -320,6 +342,22 @@ screens:
         type: "light"
         name: "Party"
         entity_id: "light.party_lights"
+      - position: [1, 1]
+        type: "fan"
+        name: "Toilet"
+        entity_id: "switch.toilet_exhaust"
+      - position: [2, 1]
+        type: "light"
+        name: "Toilet"
+        entity_id: "switch.toilet_light"
+      - position: [3, 1]
+        type: "light"
+        name: "Laundry"
+        entity_id: "switch.laundry_downlight"
+      - position: [4, 1]
+        type: "heat"
+        name: "Laundry"
+        entity_id: "switch.laundry_heat_lamp"
       - position: [0, 2]
         template: "media_player"
         entity_id: "media_player.downstairs_av"
